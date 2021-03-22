@@ -1,0 +1,79 @@
+
+server:
+  port: 33854
+spring:
+  application:
+    name: zpc-message-server
+  datasource:
+#    url: jdbc:mysql://192.168.30.232:3306/zwt_platform_core_dev?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+#    username: root
+#    password: root
+    url: jdbc:mysql://192.168.12.34:3306/zwt_platform_core_dev?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: admin
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  jpa:
+    show-sql: true
+    open-in-view: true
+    hibernate:
+      enable_lazy_load_no_trans: true
+      ddl-auto: update
+      naming:
+        physical-strategy: com.zhongwang.zwt_platform.common.core.api.base.MessageDBNamingStrategy
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:33850/eureka/
+    healthcheck:
+      enabled: true
+  instance:
+    prefer-ip-address: false
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 5
+
+#hystrix的超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 9000
+
+#ribbon的超时时间
+ribbon:
+  ReadTimeout: 4000
+  ConnectTimeout: 4000
+
+app:
+  jiguang:
+    appKey: 479d8db249d62ec68c318739
+    mastersecret: 19d4a9ff7035a1bdbfe942fa
+
+redis:
+  server:
+    host: 192.168.12.34
+    port: 6379
+    password: 123456
+swagger:
+  flag: false
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 50000
+        readTimeout: 10000
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework: DEBUG
+    com.zhongwang: DEBUG
